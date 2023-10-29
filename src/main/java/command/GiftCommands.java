@@ -8,53 +8,48 @@ import java.util.*;
 
     public class GiftCommands {
         private GiftDao giftDao;
-        private List<Sweets> sweetsList;
-        private List<Sweets> gift;
-
-        public GiftCommands(GiftDao giftDao, List<Sweets> sweetsList, List<Sweets> gift) {
+        public GiftCommands(GiftDao giftDao) {
             this.giftDao = giftDao;
-            this.sweetsList = sweetsList;
-            this.gift = gift;
-        }
 
+        }
         public void printSweetsInfo() {
-            giftDao.printSweetsInfo(sweetsList);
+            giftDao.printSweetsInfo();
         }
 
         public void addCandyToGift() throws Exception {
-            giftDao.addCandyToGift(sweetsList,gift);
+            giftDao.addCandyToGift();
         }
 
         public void removeCandyFromGift() throws Exception {
-            giftDao.removeCandyFromGift(gift);
+            giftDao.removeCandyFromGift();
         }
 
         public void calculateGiftWeight() throws Exception {
-            giftDao.calculateGiftWeight(gift);
+            giftDao.calculateGiftWeight();
         }
 
         public void sortCandies() throws Exception {
-            giftDao.sortCandies(gift);
+            giftDao.sortCandies();
         }
 
         public void findCandyBySugarContent() throws Exception {
-            giftDao.findCandyBySugarContent(gift);
+            giftDao.findCandyBySugarContent();
         }
 
         public void compositionOfTheGift() {
-            giftDao.compositionOfTheGift(gift);
+            giftDao.compositionOfTheGift();
         }
 
         public void sortBySugarContent() {
-            giftDao.sortBySugarContent(gift);
+            giftDao.sortBySugarContent();
         }
 
         public void sortByName() {
-            giftDao.sortByName(gift);
+            giftDao.sortByName();
         }
 
         public void sortByWeight() {
-            giftDao.sortByWeight(gift);
+            giftDao.sortByWeight();
         }
 
 }

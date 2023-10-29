@@ -11,25 +11,27 @@ import java.util.logging.SimpleFormatter;
 
 public interface GiftDao {
 
-    void printSweetsInfo(List<Sweets> sweetsList);
 
-    void addCandyToGift(List<Sweets> sweetsList, List<Sweets> gift) throws Exception;
 
-    void removeCandyFromGift(List<Sweets> gift) throws Exception;
+    void printSweetsInfo();
 
-    void calculateGiftWeight(List<Sweets> gift) throws Exception;
+    void addCandyToGift() throws Exception;
 
-    void sortCandies(List<Sweets> gift) throws Exception;
+    void removeCandyFromGift() throws Exception;
 
-    void findCandyBySugarContent(List<Sweets> gift) throws Exception;
+    void calculateGiftWeight() throws Exception;
 
-    void compositionOfTheGift(List<Sweets> gift);
+    void sortCandies() throws Exception;
 
-    void sortBySugarContent(List<Sweets> gift);
+    void findCandyBySugarContent() throws Exception;
 
-    void sortByName(List<Sweets> gift);
+    void compositionOfTheGift();
 
-    void sortByWeight(List<Sweets> gift);
+    void sortBySugarContent();
+
+    void sortByName();
+
+    void sortByWeight();
 
 
 }

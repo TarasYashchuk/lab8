@@ -17,11 +17,8 @@ public class GiftRunner {
 
     public static void main(String[] args) {
 
-        List<Sweets> sweetsList = Sweets.getSweetsList();
-        List<Sweets> gift = Sweets.getGiftList();
-
-        GiftDao giftDao = new GiftDaoImpl(sweetsList,gift);
-        GiftCommands command = new GiftCommands(giftDao, sweetsList, gift);
+        GiftDao giftDao = new GiftDaoImpl();
+        GiftCommands command = new GiftCommands(giftDao);
 
         Map<String, Command> commandMap = new HashMap<>();
         commandMap.put("add", new AddCandyToGiftCommand(command));

@@ -2,8 +2,21 @@ package dao;
 
 import gift.GiftRunner;
 import sweets.Sweets;
+import sweets.candies.caramel.CaramelCandy;
+import sweets.candies.caramel.Gum;
+import sweets.candies.chocolatecandy.DarkChocolate;
+import sweets.candies.chocolatecandy.MilkChocolate;
+import sweets.candies.marmalade.FruitMarmalade;
+import sweets.candies.marmalade.JellyMarmalade;
+import sweets.candies.popsicles.FruitPopsicles;
+import sweets.candies.popsicles.MilkPopsicles;
+import sweets.other.chocolatebars.CaramelChocolateBar;
+import sweets.other.chocolatebars.NutChocolateBar;
+import sweets.other.cookies.ButterCookie;
+import sweets.other.cookies.ChocolateCookie;
+import sweets.other.gingerbread.HoneyGingerbread;
+import sweets.other.gingerbread.OrangeGingerbread;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -13,25 +26,22 @@ import static gift.GiftRunner.logger;
 
 public class GiftDaoImpl implements GiftDao {
 
-    private List<Sweets> sweetsList;
-    private List<Sweets> gift;
+    List<Sweets> sweetsList;
+    List<Sweets> gift;
 
-    public GiftDaoImpl(List<Sweets> sweetsList, List<Sweets> gift) {
-        this.sweetsList = sweetsList;
-        this.gift = gift;
+    public GiftDaoImpl() {
+        this.sweetsList = getSweetsList();
+        this.gift = getGiftList();
     }
 
-
-
     @Override
-    public void printSweetsInfo(List<Sweets> sweetsList) {
+    public void printSweetsInfo() {
         for (Sweets sweets : sweetsList) {
             System.out.println(sweets.toString());
         }
     }
-
     @Override
-    public void addCandyToGift(List<Sweets> sweetsList, List<Sweets> gift) throws Exception {
+    public void addCandyToGift() throws Exception {
 
         logger.info("Команда 'addCandyToGift' почала роботу.");
         Scanner scanner = new Scanner(System.in);
@@ -70,11 +80,11 @@ public class GiftDaoImpl implements GiftDao {
     }
 
     @Override
-    public void removeCandyFromGift(List<Sweets> gift) throws Exception {
+    public void removeCandyFromGift() throws Exception {
         Scanner scanner = new Scanner(System.in);
 
         logger.info("Команда 'removeCandyFromGift' почала роботу.");
-        compositionOfTheGift(gift);
+        compositionOfTheGift();
         System.out.println("Введіть номер цукерки, яку хочете вилучити, або 'exit' для виходу:");
 
         while (true) {
@@ -91,7 +101,7 @@ public class GiftDaoImpl implements GiftDao {
                 if (candyIndex >= 0 && candyIndex < gift.size()) {
                     Sweets selectedCandy = gift.remove(candyIndex);
                     System.out.println("Цукерка " + selectedCandy.getName() + " вилучена із вашого подарунку");
-                    compositionOfTheGift(gift);
+                    compositionOfTheGift();
                     logger.info("Цукерка " + selectedCandy.getName() + " вилучена із подарунку");
                 } else {
                     System.out.println("Неправильний номер. Спробуйте ще раз.");
@@ -107,7 +117,7 @@ public class GiftDaoImpl implements GiftDao {
 
     @Override
 
-    public void calculateGiftWeight(List<Sweets> gift) throws Exception {
+    public void calculateGiftWeight() throws Exception {
 
         logger.info("Команда 'calculateGiftWeight' почала роботу.");
         double totalWeight = 0.0;
@@ -126,7 +136,7 @@ public class GiftDaoImpl implements GiftDao {
     }
 
     @Override
-    public void sortCandies(List<Sweets> gift) {
+    public void sortCandies() {
 
         logger.info("Команда 'sortCandies' почала роботу.");
         Scanner scanner = new Scanner(System.in);
@@ -138,9 +148,9 @@ public class GiftDaoImpl implements GiftDao {
         try {
             int choice = scanner.nextInt();
             switch (choice) {
-                case 1 -> sortByName(gift);
-                case 2 -> sortBySugarContent(gift);
-                case 3 -> sortByWeight(gift);
+                case 1 -> sortByName();
+                case 2 -> sortBySugarContent();
+                case 3 -> sortByWeight();
                 default -> System.out.println("Такого пункту немає");
             }
         } catch (InputMismatchException e) {
@@ -151,7 +161,7 @@ public class GiftDaoImpl implements GiftDao {
     }
 
     @Override
-    public void findCandyBySugarContent(List<Sweets> gift) throws Exception {
+    public void findCandyBySugarContent() throws Exception {
         List<Sweets> candyBySugar = new ArrayList<>();
 
         logger.info("Команда 'findCandyBySugarContent' почала роботу.");
@@ -194,7 +204,7 @@ public class GiftDaoImpl implements GiftDao {
     }
 
     @Override
-    public void compositionOfTheGift(List<Sweets> gift) {
+    public void compositionOfTheGift() {
         System.out.println("Склад вашого подарунку:");
         for (int i = 0; i < gift.size(); i++) {
             System.out.println((i + 1) + ". " + gift.get(i).getName());
@@ -202,7 +212,7 @@ public class GiftDaoImpl implements GiftDao {
     }
 
     @Override
-    public void sortBySugarContent(List<Sweets> gift) {
+    public void sortBySugarContent() {
         gift.sort((candy1, candy2) -> Double.compare(candy1.getSugarContent(), candy2.getSugarContent()));
         System.out.println("Цукерки відсортовано за вмістом цукру:");
         for (Sweets candy : gift) {
@@ -211,7 +221,7 @@ public class GiftDaoImpl implements GiftDao {
     }
 
     @Override
-    public void sortByName(List<Sweets> gift) {
+    public void sortByName() {
         gift.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
         System.out.println("Цукерки відсортовано за назвою:");
         for (Sweets candy : gift) {
@@ -220,13 +230,45 @@ public class GiftDaoImpl implements GiftDao {
     }
 
     @Override
-    public void sortByWeight(List<Sweets> gift) {
+    public void sortByWeight() {
         gift.sort((candy1, candy2) -> Double.compare(candy1.getWeight(), candy2.getWeight()));
 
         System.out.println("Цукерки відсортовано за вагою");
         for (Sweets candy : gift) {
             System.out.println(candy.getName() + " - Вага: " + candy.getWeight() + "грам");
         }
+    }
+
+    public List<Sweets> getSweetsList() {
+
+        List<Sweets> sweets = new ArrayList<>();
+
+        sweets.add(new CaramelCandy("Карамельна мелодія", 25.0, 0.2));
+        sweets.add(new Gum("Золотий шарм", 15.0, 0.4));
+
+        sweets.add(new DarkChocolate("Шоколадний розкіш", 40.0, 0.25));
+        sweets.add(new MilkChocolate("Кокосова мрія", 35.0, 0.5));
+
+        sweets.add(new FruitMarmalade("Фруктовий експрес", 10.0, 0.3));
+        sweets.add(new JellyMarmalade("Сонячні мармелади", 10.0, 0.4));
+
+        sweets.add(new FruitPopsicles("Апельсиновий відпочинок", 15.0, 0.6));
+        sweets.add(new MilkPopsicles("Молочний куш", 10.0, 0.6));
+
+        sweets.add(new CaramelChocolateBar("Шоколадний спокусник", 70.0, 0.5));
+        sweets.add(new NutChocolateBar("Горішкова феєрія", 65.0, 0.4));
+
+        sweets.add(new ButterCookie("Вишукана ніжність", 30.0, 0.6));
+        sweets.add(new ChocolateCookie("Шоколадний трепет", 45.0, 0.7));
+
+        sweets.add(new HoneyGingerbread("Медова кульбаба", 55.0, 0.3));
+        sweets.add(new OrangeGingerbread("Мандаринова історія", 50.0, 0.4));
+
+        return sweets;
+    }
+    public  List<Sweets> getGiftList() {
+        List<Sweets> gift = new ArrayList<>();
+        return gift;
     }
 
 
